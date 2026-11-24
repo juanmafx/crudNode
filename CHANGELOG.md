@@ -2,7 +2,13 @@
 
 This project follows [Semantic Versioning](https://semver.org/) and the [Keep a Changelog](https://keepachangelog.com/) format.
 
-## [1.0.0] - Unreleased
+## [1.0.1] - 2026-11-24
+
+### Changed
+
+- Documentation corrections: release notes, changelog, and security audit now reflect the published 1.0.0 release and the rewritten repository history. No code behaviour change.
+
+## [1.0.0] - 2026-11-24
 
 ### Added
 
@@ -22,4 +28,4 @@ This project follows [Semantic Versioning](https://semver.org/) and the [Keep a 
 
 ### Added
 
-- Initial repository containing a `.gitignore`.
+- Initial repository containing a `.gitignore`. This commit is no longer part of the published history, which was rewritten on 2026-11-24 to keep only the 2026 modernization commits.

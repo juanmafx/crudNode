@@ -6,7 +6,7 @@
 
 ## Starting point
 
-The repository held a single commit containing only a `.gitignore`. Its history had no source code, secrets, private keys, dependencies, or build artifacts.
+The repository held a single commit containing only a `.gitignore`. Its history had no source code, secrets, private keys, dependencies, or build artifacts. On 2026-11-24 the published history was rewritten to keep only the 2026 modernization commits, so that initial commit is no longer part of any branch or tag.
 
 ## Controls
 

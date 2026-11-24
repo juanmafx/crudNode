@@ -1,22 +1,19 @@
-# Release Notes: crudNode 1.0.0
+# Release Notes: crudNode 1.0.1
 
-**Status:** prepared, not yet tagged or published.
+Released 2026-11-24.
 
-This is the first functional version. The repository was created in 2020 with only a `.gitignore`; the implementation was added in 2026.
+This is a documentation-only patch release. There is no code behaviour change from 1.0.0.
 
-## Highlights
+## Changes
 
-- Dependency-free CRUD REST API for items.
-- Token-protected endpoints with strict input validation.
-- Atomic file persistence that refuses to start on corrupt data.
-- Automated unit and integration tests, with the report in `reports/tests/test-report.txt`.
+- The changelog and release notes now record 1.0.0 as released on 2026-11-24.
+- The security audit notes that the repository history was rewritten on 2026-11-24 and now contains only the 2026 modernization commits.
 
 ## Upgrade notes
 
-There is no earlier functional version, so no migration is needed. `API_TOKEN` must be set before starting the server.
+No migration is needed from 1.0.0. `API_TOKEN` must still be set before starting the server.
 
 ## Known limitations
 
 - Single process, single shared token, and no built-in TLS.
 - The JSON file store suits small datasets only.
-- Tests were run locally on Node.js 22.22.3 and 24.22.0. GitHub Actions passed on Node.js 22 and 24 for the initial implementation commit; later commits need their own run.

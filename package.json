@@ -1,6 +1,6 @@
 {
   "name": "crud-node",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A dependency-free CRUD REST API for items, built on the Node.js standard library.",
   "type": "module",
   "private": true,
