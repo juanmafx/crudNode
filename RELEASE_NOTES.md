@@ -19,4 +19,4 @@ There is no earlier functional version, so no migration is needed. `API_TOKEN` m
 
 - Single process, single shared token, and no built-in TLS.
 - The JSON file store suits small datasets only.
-- Local tests ran on Node.js 20.20, which is past end of life. CI targets Node.js 22 and 24 and has not run yet.
+- Tests were run locally on Node.js 22.22.3 and 24.22.0. GitHub Actions passed on Node.js 22 and 24 for the initial implementation commit; later commits need their own run.

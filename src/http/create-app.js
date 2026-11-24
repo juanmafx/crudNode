@@ -2,6 +2,7 @@ import { NotFoundError, ValidationError } from '../domain/errors.js';
 import { validatePagination } from '../domain/items/item-validation.js';
 import { createAuthenticator } from './authenticate.js';
 import { HttpError } from './http-error.js';
+import { toClientKey } from './rate-limiter.js';
 import { readJsonBody } from './read-json-body.js';
 
 const ITEMS_PATH = '/api/v1/items';
@@ -97,7 +98,7 @@ export function createApp({ itemService, apiToken, rateLimiter, maxBodyBytes, lo
     if (path !== ITEMS_PATH && !path.startsWith(`${ITEMS_PATH}/`)) {
       throw notFound();
     }
-    const limit = rateLimiter.check(request.socket.remoteAddress ?? 'unknown');
+    const limit = rateLimiter.check(toClientKey(request.socket.remoteAddress));
     if (!limit.allowed) {
       throw new HttpError(429, 'rate_limited', 'Too many requests.', {
         'Retry-After': String(limit.retryAfterSeconds),

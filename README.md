@@ -10,7 +10,7 @@ crudNode implements the four persistence operations (create, read, update, delet
 
 ## Why this project exists
 
-The repository was started to hold a CRUD application in Node.js. This version fulfills that purpose and shows how a deliberately small service can still have clear module boundaries, strict input handling, safe persistence, and automated tests, without a framework or third-party runtime packages.
+The 2020 repository held only a Node.js `.gitignore`, so its original intent is known only from its name. This version implements that name and shows how a deliberately small service can still have clear module boundaries, strict input handling, safe persistence, and automated tests, without a framework or third-party runtime packages.
 
 ## What it does
 
@@ -18,7 +18,7 @@ The repository was started to hold a CRUD application in Node.js. This version f
 - Requires a bearer token for every item operation.
 - Validates all input and rejects unknown fields.
 - Stores items in a local JSON file using atomic, serialized writes.
-- Applies per-client rate limits, body size limits, server timeouts, and security headers.
+- Applies per-address rate limits to item routes (IPv6 clients are grouped by /64), body size limits, a connection cap, server timeouts, and security headers on application responses.
 
 It has no user accounts, no web interface, and no multi-instance support. See [Limitations](#limitations).
 
@@ -38,7 +38,7 @@ The full design is in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## Quick start
 
-Requires Node.js 22 or 24 (supported LTS lines). The code was also run on Node.js 20.20, which is past end of life and is not recommended. There are no packages to install.
+Requires Node.js 22 or later. The test suite was run on Node.js 22.22.3 and 24.22.0. There are no packages to install.
 
 ```bash
 git clone https://github.com/juanmafx/crudNode.git
@@ -124,7 +124,7 @@ npm test
 npm run test:report
 ```
 
-Tests use the built-in `node:test` runner and cover validation, persistence, security primitives, and the HTTP API over a real loopback socket. The schema tests need the `sqlite3` CLI and are skipped if it is missing. The committed output of an actual run is in [reports/tests/test-report.txt](reports/tests/test-report.txt).
+Tests use the built-in `node:test` runner and cover validation, persistence, security primitives, and the HTTP API over a real loopback socket. The schema tests need the `sqlite3` CLI and are skipped if it is missing. The committed output of an actual run on Node.js 24.22.0 is in [reports/tests/test-report.txt](reports/tests/test-report.txt).
 
 ## Security notes
 
@@ -132,6 +132,8 @@ Tests use the built-in `node:test` runner and cover validation, persistence, sec
 - The server binds to loopback by default and has no TLS. Put a TLS-terminating reverse proxy in front of it before exposing it.
 - Behind a proxy, all clients share one rate-limit bucket because forwarded headers are deliberately not trusted.
 - The API has no cookies or browser sessions and sends no CORS headers.
+- There are no user accounts or passwords, so two-factor authentication and password hashing do not apply.
+- Requests the Node.js HTTP parser rejects receive its plain default error response, without the security headers.
 
 See [SECURITY.md](SECURITY.md) and [docs/SECURITY_AUDIT.md](docs/SECURITY_AUDIT.md).
 

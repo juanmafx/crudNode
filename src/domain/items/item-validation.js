@@ -121,6 +121,14 @@ export function validatePagination(searchParams) {
   return { limit, offset };
 }
 
+function isCanonicalTimestamp(value) {
+  if (typeof value !== 'string') {
+    return false;
+  }
+  const time = new Date(value);
+  return !Number.isNaN(time.getTime()) && time.toISOString() === value;
+}
+
 export function isStoredItem(value) {
   if (!isPlainObject(value) || !isItemId(value.id)) {
     return false;
@@ -133,9 +141,7 @@ export function isStoredItem(value) {
   return (
     value.name === value.name.trim() &&
     Object.keys(value).length === 5 &&
-    typeof value.createdAt === 'string' &&
-    typeof value.updatedAt === 'string' &&
-    !Number.isNaN(Date.parse(value.createdAt)) &&
-    !Number.isNaN(Date.parse(value.updatedAt))
+    isCanonicalTimestamp(value.createdAt) &&
+    isCanonicalTimestamp(value.updatedAt)
   );
 }

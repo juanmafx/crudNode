@@ -45,6 +45,7 @@ describe('JSON file store', () => {
     ['a non-array', '{}'],
     ['an invalid item', '[{"id":"x"}]'],
     ['duplicate ids', JSON.stringify([ITEM, ITEM])],
+    ['a non-canonical timestamp', JSON.stringify([{ ...ITEM, createdAt: '1' }])],
   ]) {
     it(`rejects ${label}`, async () => {
       const filePath = join(directory, 'corrupt.json');

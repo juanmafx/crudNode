@@ -7,7 +7,7 @@ This project follows [Semantic Versioning](https://semver.org/) and the [Keep a 
 ### Added
 
 - CRUD REST API for items under `/api/v1/items`, using only the Node.js standard library.
-- Bearer token authentication, rate limiting, body limits, server timeouts, and security headers.
+- Bearer token authentication, rate limiting, body limits, a connection cap, server timeouts, and security headers.
 - Atomic JSON file persistence with validation on load.
 - Optional SQLite schema in `db/schema.sql`.
 - Unit and integration tests with a committed test report.
@@ -16,9 +16,9 @@ This project follows [Semantic Versioning](https://semver.org/) and the [Keep a 
 
 ### Changed
 
-- `.gitignore` now excludes the local `data/` directory.
+- `.gitignore` now excludes the local `data/` directory and `.env.*` files.
 
-## [0.0.0] - 2020-12-20
+## Repository created - 2020-12-20
 
 ### Added
 

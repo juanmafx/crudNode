@@ -2,8 +2,9 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { ConfigError, loadConfig } from '../../src/config/load-config.js';
 import { createAuthenticator } from '../../src/http/authenticate.js';
+import { createHttpServer } from '../../src/http/create-server.js';
 import { HttpError } from '../../src/http/http-error.js';
-import { RateLimiter } from '../../src/http/rate-limiter.js';
+import { RateLimiter, toClientKey } from '../../src/http/rate-limiter.js';
 
 const TOKEN = 'unit-test-token-with-enough-length-0001';
 
@@ -39,6 +40,42 @@ describe('authenticator', () => {
       assert.throws(() => authenticate(header), (error) => error instanceof HttpError && error.status === 401);
     });
   }
+});
+
+describe('createHttpServer', () => {
+  it('caps concurrent connections and enforces timeouts', () => {
+    const server = createHttpServer(() => {});
+    assert.equal(server.maxConnections, 1000);
+    assert.equal(server.requestTimeout, 15_000);
+    assert.equal(server.headersTimeout, 10_000);
+  });
+});
+
+describe('toClientKey', () => {
+  for (const [address, expected] of [
+    [undefined, 'unknown'],
+    ['203.0.113.7', '203.0.113.7'],
+    ['::ffff:203.0.113.7', '203.0.113.7'],
+    ['2001:db8:1:2:3:4:5:6', '2001:db8:1:2::/64'],
+    ['2001:db8:1:2::9', '2001:db8:1:2::/64'],
+    ['2001:DB8:0001:2::9', '2001:db8:1:2::/64'],
+    ['2001:db8::1', '2001:db8:0:0::/64'],
+    ['fe80::1%eth0', 'fe80:0:0:0::/64'],
+    ['::1', '0:0:0:0::/64'],
+    ['::', '0:0:0:0::/64'],
+    ['64:ff9b::192.0.2.1', '64:ff9b:0:0::/64'],
+  ]) {
+    it(`maps ${address} to ${expected}`, () => {
+      assert.equal(toClientKey(address), expected);
+    });
+  }
+
+  it('applies one budget across a rotating IPv6 /64', () => {
+    const limiter = new RateLimiter({ maxRequests: 1, windowMs: 1000, maxClients: 10 });
+    assert.equal(limiter.check(toClientKey('2001:db8:1:2::1')).allowed, true);
+    assert.equal(limiter.check(toClientKey('2001:db8:1:2::2')).allowed, false);
+    assert.equal(limiter.check(toClientKey('2001:db8:1:3::1')).allowed, true);
+  });
 });
 
 describe('RateLimiter', () => {
