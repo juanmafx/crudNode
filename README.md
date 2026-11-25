@@ -6,7 +6,7 @@ A small, dependency-free CRUD REST API for items, built only on the Node.js stan
 
 ## Purpose
 
-crudNode implements the four persistence operations (create, read, update, delete) over HTTP for one resource, an `item` with a name and a description.
+node-crud-api implements the four persistence operations (create, read, update, delete) over HTTP for one resource, an `item` with a name and a description.
 
 ## Why this project exists
 
@@ -41,7 +41,7 @@ The full design is in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 Requires Node.js 22 or later. The test suite was run on Node.js 22.22.3 and 24.22.0. There are no packages to install.
 
 ```bash
-git clone https://github.com/juanmafx/crudNode.git
+git clone https://github.com/juanmafx/node-crud-api.git
 cd node-crud-api
 export API_TOKEN="$(node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))")"
 npm start
