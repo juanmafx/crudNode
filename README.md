@@ -1,4 +1,4 @@
-# crudNode
+# node-crud-api
 
 A small, dependency-free CRUD REST API for items, built only on the Node.js standard library.
 
@@ -42,7 +42,7 @@ Requires Node.js 22 or later. The test suite was run on Node.js 22.22.3 and 24.2
 
 ```bash
 git clone https://github.com/juanmafx/crudNode.git
-cd crudNode
+cd node-crud-api
 export API_TOKEN="$(node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))")"
 npm start
 ```
